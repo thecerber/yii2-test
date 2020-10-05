@@ -1,0 +1,71 @@
+### Ошибка авторизации
+GET http://localhost:80/leads/add
+Content-Type: application/json
+
+### Метод не поддерживается данным действием
+GET http://localhost:80/leads/add
+Content-Type: application/json
+Authorization: Basic X1J6eVJTTk4yakQyd0YzZG1kcGdpc3JEV3U5cHptdWw=
+
+### Запрашивается несуществующее действие
+POST http://localhost:80/leads/add2
+Content-Type: application/json
+Authorization: Basic X1J6eVJTTk4yakQyd0YzZG1kcGdpc3JEV3U5cHptdWw=
+
+### Штатное добавление лида (выполнив повторно получим ошибку; имя, почта и телефон должны быть уникальными)
+POST http://localhost:80/leads/add
+Content-Type: application/json
+Authorization: Basic X1J6eVJTTk4yakQyd0YzZG1kcGdpc3JEV3U5cHptdWw=
+
+{
+  "name": "Donald Duck",
+  "email": "Donald.Duck@gmail.com",
+  "phone": "877-764-2539",
+  "source_id": 1
+}
+
+### Набор ошибочных данных (API возвращает только первую ошибку, так что заменяя одно значение на корректное увидим ошибку по следующему)
+POST http://localhost:80/leads/add
+Content-Type: application/json
+Authorization: Basic X1J6eVJTTk4yakQyd0YzZG1kcGdpc3JEV3U5cHptdWw=
+
+{
+  "name": "   ",
+  "email": "mymail@org",
+  "source_id": -1
+}
+
+### Метод не поддерживается данным действием
+POST http://localhost:80/leads/get
+Content-Type: application/json
+Authorization: Basic X1J6eVJTTk4yakQyd0YzZG1kcGdpc3JEV3U5cHptdWw=
+
+### Выбрать всех STATUS_NEW лидов пользователя Mikey Mouse
+GET http://localhost:80/leads/get
+Content-Type: application/json
+Authorization: Basic X1J6eVJTTk4yakQyd0YzZG1kcGdpc3JEV3U5cHptdWw=
+
+{
+  "status": 0,
+  "created_by": 1
+}
+
+### Выбрать всех лидов пользователя Mikey Mouse (страница 2)
+GET http://localhost:80/leads/get
+Content-Type: application/json
+Authorization: Basic X1J6eVJTTk4yakQyd0YzZG1kcGdpc3JEV3U5cHptdWw=
+
+{
+  "offset": 5,
+  "created_by": 1
+}
+
+### Выбрать всех лидов со статусом STATUS_SUCCESS
+GET http://localhost:80/leads/get
+Content-Type: application/json
+Authorization: Basic X1J6eVJTTk4yakQyd0YzZG1kcGdpc3JEV3U5cHptdWw=
+
+{
+  "status": 2
+}
+
